@@ -1,0 +1,61 @@
+C51 COMPILER V9.60.0.0   ____                                                              04/25/2024 12:37:13 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE ____
+OBJECT MODULE PLACED IN .\Objects\程序.obj
+COMPILER INVOKED BY: F:\Keil\C51\BIN\C51.EXE 程序.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\程序.ls
+                    -t) OBJECT(.\Objects\程序.obj)
+
+line level    source
+
+   1          #include "REG51.h"
+   2           
+   3          sbit led = P2^0;
+   4          unsigned int i;
+   5          
+   6          void timer0_init() {
+   7   1          TMOD &= 0xF0;      // 清除定时器0模式位
+   8   1          TMOD |= 0x01;      // 设置定时器0为模式1 (16位定时器模式)
+   9   1      
+  10   1          TH0 = (65536 - 1000) / 256;   // 定时器高位寄存器
+  11   1          TL0 = (65536 - 1000) % 256;   // 定时器低位寄存器
+  12   1      
+  13   1          ET0 = 1;           // 使能定时器0中断
+  14   1          TR0 = 1;           // 启动定时器0
+  15   1      }
+  16          
+  17          void timer0_ISR(void) interrupt 1  // 定时器0中断服务程序
+  18          {
+  19   1          TH0 = (65536 - 1000) / 256;    // 重新加载定时器高位
+  20   1          TL0 = (65536 - 1000) % 256;    // 重新加载定时器低位
+  21   1      
+  22   1          // 在这里添加定时器溢出时需要执行的代码
+  23   1              i++;
+  24   1              if (i == 200)
+  25   1              {
+  26   2                      i = 0;
+  27   2                      led = ~ led;
+  28   2              }
+  29   1      }
+  30          
+  31          void main() {
+  32   1              EA = 1;         // 使能全局中断
+  33   1          timer0_init();     // 初始化定时器
+  34   1          while(1) {
+  35   2              // 主循环中的代码
+  36   2          }
+  37   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     55    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
