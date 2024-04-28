@@ -1,0 +1,190 @@
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    04/29/2024  00:02:59  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
+F:\KEIL\C51\BIN\BL51.EXE .\Objects\STARTUP.obj, .\Objects\程序.obj TO .\Objects\程序 PRINT (.\Listings\程序.m51)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\STARTUP.obj (?C_STARTUP)
+  .\Objects\程序.obj (____)
+  F:\KEIL\C51\LIB\C51S.LIB (?C?CLDPTR)
+
+
+LINK MAP OF MODULE:  .\Objects\程序 (?C_STARTUP)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0003H     UNIT         _DATA_GROUP_
+                    000BH     0015H                  *** GAP ***
+            BIT     0020H.0   0000H.1   UNIT         ?BI?____
+                    0020H.1   0000H.7                *** GAP ***
+            IDATA   0021H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     001DH     UNIT         ?PR?MAIN?____
+                    0020H     0003H                  *** GAP ***
+            CODE    0023H     0003H     ABSOLUTE     
+            CODE    0026H     004AH     UNIT         ?PR?UART_ISR?____
+            CODE    0070H     0025H     UNIT         ?PR?_SENDSTRING?____
+            CODE    0095H     001AH     UNIT         ?CO?____
+            CODE    00AFH     0019H     UNIT         ?C?LIB_CODE
+            CODE    00C8H     000CH     UNIT         ?C_C51STARTUP
+            CODE    00D4H     0008H     UNIT         ?PR?_SENDDATA?____
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\程序 (?C_STARTUP)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?____
+
+?PR?MAIN?____                  -----    -----
+  +--> ?CO?____
+  +--> ?PR?_SENDSTRING?____
+
+?PR?_SENDSTRING?____           0008H    0003H
+  +--> ?PR?_SENDDATA?____
+
+*** NEW ROOT ***************************************************
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  04/29/2024  00:02:59  PAGE 2
+
+
+
+?PR?UART_ISR?____              -----    -----
+  +--> ?PR?_SENDDATA?____
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\程序 (?C_STARTUP)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ?C_STARTUP
+  C:00C8H         SEGMENT       ?C_C51STARTUP
+  I:0021H         SEGMENT       ?STACK
+  C:0000H         PUBLIC        ?C_STARTUP
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  D:0083H         SYMBOL        DPH
+  D:0082H         SYMBOL        DPL
+  N:0000H         SYMBOL        IBPSTACK
+  N:0100H         SYMBOL        IBPSTACKTOP
+  N:0080H         SYMBOL        IDATALEN
+  C:00CBH         SYMBOL        IDATALOOP
+  N:0000H         SYMBOL        PBPSTACK
+  N:0100H         SYMBOL        PBPSTACKTOP
+  N:0000H         SYMBOL        PDATALEN
+  N:0000H         SYMBOL        PDATASTART
+  N:0000H         SYMBOL        PPAGE
+  N:0000H         SYMBOL        PPAGEENABLE
+  D:00A0H         SYMBOL        PPAGE_SFR
+  D:0081H         SYMBOL        SP
+  C:00C8H         SYMBOL        STARTUP1
+  N:0000H         SYMBOL        XBPSTACK
+  N:0000H         SYMBOL        XBPSTACKTOP
+  N:0000H         SYMBOL        XDATALEN
+  N:0000H         SYMBOL        XDATASTART
+  C:0000H         LINE#         126
+  C:00C8H         LINE#         133
+  C:00CAH         LINE#         134
+  C:00CBH         LINE#         135
+  C:00CCH         LINE#         136
+  C:00CEH         LINE#         185
+  C:00D1H         LINE#         196
+  -------         ENDMOD        ?C_STARTUP
+
+  -------         MODULE        ____
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  B:00A8H.7       PUBLIC        EA
+  C:0070H         PUBLIC        _SendString
+  C:00D4H         PUBLIC        _SendData
+  B:00A8H.4       PUBLIC        ES
+  B:0098H.0       PUBLIC        RI
+  B:0098H.1       PUBLIC        TI
+  C:0003H         PUBLIC        main
+  C:0026H         PUBLIC        Uart_Isr
+  D:0099H         PUBLIC        SBUF
+  D:0098H         PUBLIC        SCON
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  04/29/2024  00:02:59  PAGE 3
+
+
+  D:0089H         PUBLIC        TMOD
+  B:0020H.0       PUBLIC        busy
+  D:008DH         PUBLIC        TH1
+  D:008BH         PUBLIC        TL1
+  B:0088H.6       PUBLIC        TR1
+  -------         PROC          MAIN
+  C:0003H         LINE#         28
+  C:0003H         LINE#         29
+  C:0003H         LINE#         31
+  C:0006H         LINE#         33
+  C:0009H         LINE#         34
+  C:000FH         LINE#         35
+  C:0011H         LINE#         36
+  C:0013H         LINE#         37
+  C:0015H         LINE#         39
+  C:001EH         LINE#         40
+  -------         ENDPROC       MAIN
+  -------         PROC          UART_ISR
+  -------         DO            
+  D:0007H         SYMBOL        res
+  -------         ENDDO         
+  C:0026H         LINE#         46
+  C:0043H         LINE#         48
+  C:0044H         LINE#         49
+  C:0047H         LINE#         50
+  C:0047H         LINE#         51
+  C:0049H         LINE#         52
+  C:004BH         LINE#         53
+  C:004EH         LINE#         56
+  C:004EH         LINE#         57
+  C:0051H         LINE#         58
+  C:0051H         LINE#         59
+  C:0053H         LINE#         60
+  C:0055H         LINE#         61
+  C:0055H         LINE#         62
+  -------         ENDPROC       UART_ISR
+  -------         PROC          _SENDDATA
+  D:0007H         SYMBOL        dat
+  C:00D4H         LINE#         69
+  C:00D4H         LINE#         70
+  C:00D4H         LINE#         71
+  C:00D7H         LINE#         72
+  C:00D9H         LINE#         73
+  C:00DBH         LINE#         74
+  -------         ENDPROC       _SENDDATA
+  -------         PROC          _SENDSTRING
+  D:0008H         SYMBOL        s
+  C:0070H         LINE#         81
+  C:0076H         LINE#         82
+  C:0076H         LINE#         83
+  C:0081H         LINE#         84
+  C:0081H         LINE#         85
+  C:0092H         LINE#         86
+  C:0094H         LINE#         87
+  -------         ENDPROC       _SENDSTRING
+  -------         ENDMOD        ____
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  04/29/2024  00:02:59  PAGE 4
+
+
+  -------         MODULE        ?C?CLDPTR
+  C:00AFH         PUBLIC        ?C?CLDPTR
+  -------         ENDMOD        ?C?CLDPTR
+
+Program Size: data=12.1 xdata=0 code=217
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

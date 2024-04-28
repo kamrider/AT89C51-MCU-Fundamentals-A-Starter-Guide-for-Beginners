@@ -1,0 +1,114 @@
+C51 COMPILER V9.60.0.0   ____                                                              04/29/2024 00:02:59 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE ____
+OBJECT MODULE PLACED IN .\Objects\程序.obj
+COMPILER INVOKED BY: F:\Keil\C51\BIN\C51.EXE 程序.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\程序.ls
+                    -t) OBJECT(.\Objects\程序.obj)
+
+line level    source
+
+   1          /*------------------------------------------------------------------*/
+   2          /* --- STC MCU Limited ---------------------------------------------*/
+   3          /* --- STC89-90xx Series MCU UART (8-bit/9-bit)Demo ----------------*/
+   4          /* --- Mobile: (86)13922805190 -------------------------------------*/
+   5          /* --- Fax: 86-0513-55012956,55012947,55012969 ---------------------*/
+   6          /* --- Tel: 86-0513-55012928,55012929,55012966----------------------*/
+   7          /* --- Web: www.STCMCU.com -----------------------------------------*/
+   8          /* --- Web: www.GXWMCU.com -----------------------------------------*/
+   9          /* If you want to use the program or the program referenced in the  */
+  10          /* article, please specify in which data and procedures from STC    */
+  11          /*------------------------------------------------------------------*/
+  12          
+  13          #include "reg51.h"
+  14          #include "intrins.h"
+  15          
+  16          typedef unsigned char BYTE;
+  17          typedef unsigned int WORD;
+  18          
+  19          #define FOSC 11059200L      //System frequency
+  20          #define BAUD 9600           //UART baudrate
+  21          
+  22          
+  23          bit busy;
+  24          
+  25          void SendData(BYTE dat);
+  26          void SendString(char *s);
+  27          
+  28          void main()
+  29          {
+  30   1      
+  31   1          SCON = 0x50;            //8-bit variable UART
+  32   1      
+  33   1          TMOD = 0x20;            //Set Timer1 as 8-bit auto reload mode
+  34   1          TH1 = TL1 = -(FOSC/12/32/BAUD); //Set auto-reload vaule
+  35   1          TR1 = 1;                //Timer1 start run
+  36   1          ES = 1;                 //Enable UART interrupt
+  37   1          EA = 1;                 //Open master interrupt switch
+  38   1      
+  39   1          SendString("STC89-90xx\r\nUart Test !\r\n");
+  40   1          while(1);
+  41   1      }
+  42          
+  43          /*----------------------------
+  44          UART interrupt service routine
+  45          ----------------------------*/
+  46          void Uart_Isr() interrupt 4
+  47          {
+  48   1              unsigned char res = 0;
+  49   1              if (RI)
+  50   1          {
+  51   2              RI = 0;                     // 清除接收中断标志位
+  52   2                      res = SBUF;  // 读取接收到的数据
+  53   2                      SendData(res);       
+  54   2                      
+C51 COMPILER V9.60.0.0   ____                                                              04/29/2024 00:02:59 PAGE 2   
+
+  55   2      
+  56   2          }
+  57   1          if (TI)
+  58   1          {
+  59   2              TI = 0;             //Clear transmit interrupt flag
+  60   2              busy = 0;           //Clear transmit busy flag
+  61   2          }
+  62   1      }
+  63          
+  64          /*----------------------------
+  65          Send a byte data to UART
+  66          Input: dat (data to be sent)
+  67          Output:None
+  68          ----------------------------*/
+  69          void SendData(BYTE dat)
+  70          {
+  71   1          while (busy);           //Wait for the completion of the previous data is sent
+  72   1          busy = 1;
+  73   1          SBUF = dat;             //Send data to UART buffer
+  74   1      }
+  75          
+  76          /*----------------------------
+  77          Send a string to UART
+  78          Input: s (address of string)
+  79          Output:None
+  80          ----------------------------*/
+  81          void SendString(char *s)
+  82          {
+  83   1          while (*s)              //Check the end of the string
+  84   1          {
+  85   2              SendData(*s++);     //Send current char and increment string ptr
+  86   2          }
+  87   1      }
+  88          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    148    ----
+   CONSTANT SIZE    =     26    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      1    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
